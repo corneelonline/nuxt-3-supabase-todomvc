@@ -10,6 +10,5 @@ console.log(supabase);
 <template>
   <div>
     <h1>Nuxt 3 Supabase TodoMVC</h1>
-    <pre>{{ supabase }}</pre>
   </div>
 </template>
