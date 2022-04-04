@@ -7,26 +7,27 @@ const supabase = createClient(supabaseUrl, supabasePublicKey);
 
 const loginState = reactive({
   email: "",
-  password: "",
-  user: null,
-  error: null,
 });
 
-const signUp = async () => {
-  let { user, error } = await supabase.auth.signUp({
-    email: loginState.email,
-    password: loginState.password,
-  });
+const loading = ref("");
 
-  loginState.user = user;
-  loginState.error = error;
+const login = async () => {
+  try {
+    loading.value = true;
+    const { error } = await supabase.auth.signIn({ email: loginState.email });
+    if (error) throw error;
+    alert("Check your email for the login link!");
+  } catch (error) {
+    alert(error.error_description || error.message);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
 <template>
   <div>
     <h1>Sign up</h1>
-    <pre>{{ loginState }}</pre>
     <form @submit.prevent>
       <div>
         <label for="email">Email</label>
@@ -38,11 +39,7 @@ const signUp = async () => {
         />
       </div>
       <div>
-        <label for="password">Password</label>
-        <input type="password" v-model="loginState.password" id="password" />
-      </div>
-      <div>
-        <button @click="signUp">Sign Up</button>
+        <button @click="login">Login</button>
       </div>
     </form>
   </div>
