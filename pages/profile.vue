@@ -32,7 +32,7 @@
 
 <script setup>
 import { store } from "../store";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 import { createClient } from "@supabase/supabase-js/dist/main/index.js";
 const { supabaseUrl, supabasePublicKey } = useRuntimeConfig();
@@ -42,31 +42,6 @@ const loading = ref(true);
 const username = ref("");
 const website = ref("");
 const avatar_url = ref("");
-
-async function getProfile() {
-  try {
-    loading.value = true;
-    store.user = supabase.auth.user();
-
-    let { data, error, status } = await supabase
-      .from("profiles")
-      .select(`username, website, avatar_url`)
-      .eq("id", store.user.id)
-      .single();
-
-    if (error && status !== 406) throw error;
-
-    if (data) {
-      username.value = data.username;
-      website.value = data.website;
-      avatar_url.value = data.avatar_url;
-    }
-  } catch (error) {
-    alert(error.message);
-  } finally {
-    loading.value = false;
-  }
-}
 
 async function updateProfile() {
   try {
@@ -104,8 +79,4 @@ async function signOut() {
     loading.value = false;
   }
 }
-
-onMounted(() => {
-  getProfile();
-});
 </script>
