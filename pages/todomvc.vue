@@ -52,17 +52,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Todo MVC</h1>
-  <input type="text" v-model="newTask" @keyup.enter="addTask" />
-  <h2>List of tasks</h2>
-  <ul>
-    <li v-for="(task, index) in taskList" :key="task.task + index">
-      <input
-        type="checkbox"
-        v-model="task.is_complete"
-        @click="updateTaskCompletion(task)"
-      />
-      {{ task.task }}
-    </li>
-  </ul>
+  <div>
+    <h1>Todo MVC</h1>
+    <input type="text" v-model="newTask" @keyup.enter="addTask" />
+    <h2>List of tasks</h2>
+    <ul>
+      <li v-for="(task, index) in taskList" :key="task.task + index">
+        <input
+          type="checkbox"
+          v-model="task.is_complete"
+          @click="updateTaskCompletion(task)"
+        />
+        {{ task.task }}
+      </li>
+    </ul>
+  </div>
 </template>
